@@ -1,0 +1,33 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @_currentCount</p>
+<p>Random number: <span style="color: @GetNumberColor(_randomNumber)">@_randomNumber</span></p>
+
+@if (_randomNumber == _birthdayDay)
+{
+<p><span style="color: red">Dette tal er din fødselsdag!</span></p>
+}
+
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int _currentCount;
+    private int _randomNumber;
+    private int _birthdayDay = 19;
+
+    private void IncrementCount()
+    {
+        _currentCount++;
+        _randomNumber = new Random().Next(0, _currentCount + 1);
+    }
+    private string GetNumberColor(int number)
+    {
+        return number == _birthdayDay ? "red" : "black";
+    }
+
+}

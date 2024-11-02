@@ -1,0 +1,49 @@
+@page "/myDices"
+@namespace AppV2
+@using Models
+
+<h3>MyDices</h3>
+
+<div>
+    <label for="diceCount">Number of Dices:</label>
+    <input id="diceCount" type="number" min="1" max="6" @bind="_numberOfDices" @bind:event="oninput" />
+</div>
+
+<div style="display: flex; gap: 20px;">
+    @{
+        int diceNumber = 1;
+    }
+    @foreach (var value in _diceValues)
+    {
+        <img src="/images/dice@(value).png" alt="Dice @value" style="width: 100px; height: 100px;"/>
+        <p>Dice @diceNumber: @(value)</p>
+        diceNumber++;
+    }
+    
+</div>
+
+
+
+<button class="btn btn-primary" @onclick="RollDices">Roll Dices</button>
+
+
+@code {
+    private DiceCup _diceCup = new DiceCup();
+    private int[] _diceValues = new int[2];
+    private int _numberOfDices = 2;
+
+
+    protected override void OnInitialized()
+    {
+        _diceCup = new DiceCup(_numberOfDices);
+        RollDices();
+    }
+
+    private void RollDices()
+    {
+        _diceCup.SetNumberOfDices(_numberOfDices);
+        _diceCup.Roll();
+        _diceValues = _diceCup.GetValues().ToArray();
+    }
+
+}
